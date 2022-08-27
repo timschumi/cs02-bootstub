@@ -26,4 +26,4 @@ ramdisk.bin:
 	truncate -s 1359384 ramdisk.bin
 
 bootstub.elf: bootstub.c bootstub.ld
-	$(CROSS_COMPILE)gcc $(CFLAGS) -ffreestanding -nostartfiles -nostdlib -Wl,-T,bootstub.ld -o bootstub.elf bootstub.c
+	$(CROSS_COMPILE)gcc $(CFLAGS) -std=gnu99 -ffreestanding -nostartfiles -nostdlib -Wl,-T,bootstub.ld -o bootstub.elf bootstub.c
