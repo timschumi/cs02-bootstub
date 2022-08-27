@@ -1,5 +1,7 @@
+void (*_log_message)(char*, ...) = (void*)0xae203534;
+
 __attribute__((naked)) void _start() {
-    ((void (*)(char*))0xae2027a4)((char*)0xae2644ec);
+    _log_message((char*)0xae25ec74, "blahblah");
 
     for (;;)
         asm volatile("wfi");
