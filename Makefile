@@ -18,12 +18,12 @@ bootstub.img: bootstub.bin ramdisk.bin
 		--hashtype sha1 \
 		-o bootstub.img
 
-bootstub.bin: bootstub.o
-	$(CROSS_COMPILE)objcopy -O binary -j .text bootstub.o bootstub.bin
+bootstub.bin: bootstub.elf
+	$(CROSS_COMPILE)objcopy -O binary bootstub.elf bootstub.bin
 	truncate -s 3633224 bootstub.bin
 
 ramdisk.bin:
 	truncate -s 1359384 ramdisk.bin
 
-bootstub.o: bootstub.c
-	$(CROSS_COMPILE)gcc $(CFLAGS) -o bootstub.o -c bootstub.c
+bootstub.elf: bootstub.c bootstub.ld
+	$(CROSS_COMPILE)gcc $(CFLAGS) -ffreestanding -nostartfiles -nostdlib -Wl,-T,bootstub.ld -o bootstub.elf bootstub.c
