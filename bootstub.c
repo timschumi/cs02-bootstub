@@ -11,8 +11,21 @@ void _start() {
 
 void (*_log_message)(char*, ...) = (void*)0xae203534;
 void (*_uart_print_character)(int) = (void*)0xae2026e8;
+uint32_t (*_sleep)(uint32_t) = (void*)0xae2048e8;
 uint8_t (*__microusb_register_read)(uint16_t reg, uint8_t* value) = (void*)0xae230200;
 uint8_t (*__microusb_register_write)(uint16_t reg, uint8_t value) = (void*)0xae23027c;
+
+uint32_t get_input_key_set(int set) {
+    return *(uint32_t*)(0x350038a0 + set * 4);
+}
+
+void wait_for_key_press() {
+    while (get_input_key_set(0))
+        _sleep(100);
+
+    while (!get_input_key_set(0))
+        _sleep(100);
+}
 
 uint16_t microusb_registers[] = {
     0x1,
