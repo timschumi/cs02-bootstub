@@ -19,5 +19,10 @@ SECTIONS
         *(.data*)
     }
 
+    .bss ALIGN(4K) : AT (ADDR(.bss))
+    {
+        *(.bss*)
+    }
+
     /DISCARD/ : { *(*) }
 }
