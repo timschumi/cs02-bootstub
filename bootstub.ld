@@ -4,6 +4,11 @@ SECTIONS
 {
     . = 0x81e08000;
 
+    .entry ALIGN(4K) : AT (ADDR(.entry))
+    {
+        *(.entry*)
+    }
+
     .text ALIGN(4K) : AT (ADDR(.text))
     {
         *(.text*)

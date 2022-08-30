@@ -1,14 +1,5 @@
 #include <stdint.h>
 
-// Note: This has to be the very first.
-void main();
-void _start() {
-    main();
-
-    for (;;)
-        asm volatile("wfi");
-}
-
 void (*_log_message)(char*, ...) = (void*)0xae203534;
 void (*_uart_print_character)(int) = (void*)0xae2026e8;
 uint32_t (*_sleep)(uint32_t) = (void*)0xae2048e8;
