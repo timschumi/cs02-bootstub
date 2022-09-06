@@ -39,3 +39,8 @@ out/bootstub.elf: $(COMMON_SOURCES:%.c=out/common/%.o) $(DEVICE_SOURCES:%.c=out/
 out/%.o: ../%.c
 	@mkdir -p $(dir $@)
 	$(CROSS_COMPILE)gcc -c $(COMMON_CFLAGS) $(CFLAGS) -o $@ $^
+
+.PHONY: flash
+
+flash: out/bootstub.img
+	heimdall flash --KERNEL out/bootstub.img
