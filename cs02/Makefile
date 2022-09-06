@@ -1,7 +1,7 @@
 include ../common/common.mk
 
-CROSS_COMPILE = /opt/toolchains/arm-eabi-4.8/bin/arm-eabi-
-CFLAGS = -march=armv7-a -mcpu=cortex-a9 -mfloat-abi=softfp -mfpu=neon
+CROSS_COMPILE = arm-none-eabi-
+CFLAGS = -mcpu=cortex-a9 -mfloat-abi=softfp -mfpu=neon
 LDFLAGS = -T linker.ld
 
 DEVICE_SOURCES = \
