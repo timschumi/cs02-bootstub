@@ -5,7 +5,7 @@
 #define PKG_ID_LEN 8
 
 unsigned long readul() {
-    uint8_t buffer[0x20];
+    char buffer[0x20];
     memset(buffer, 0, sizeof(buffer));
     size_t len = read(buffer, sizeof(buffer) - 1);
     buffer[len] = 0;
@@ -17,7 +17,7 @@ void main() {
     printf("Hello from bootstub!\n");
 
     while (1) {
-        uint8_t buffer[PKG_ID_LEN];
+        char buffer[PKG_ID_LEN];
         memset(buffer, 0, PKG_ID_LEN);
         read(buffer, PKG_ID_LEN);
 
