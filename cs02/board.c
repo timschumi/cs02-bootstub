@@ -1,5 +1,6 @@
 #include <stdint.h>
 
+#include "device.h"
 #include "stdlib.h"
 
 static unsigned int (*_uart_read_character)(void) = (void*)0xae2145b0;
@@ -46,4 +47,16 @@ void sleep(size_t time) {
 
 __attribute__((naked)) void printf(char const* fmt, ...) {
     asm volatile("b 0xae203534");
+}
+
+extern uint8_t __start_boot;
+extern uint8_t __end_boot;
+
+void boot_get_area(uint8_t** buffer, size_t* size) {
+    *buffer = &__start_boot;
+    *size = &__end_boot - &__start_boot;
+}
+
+void boot_jump() {
+    ((void(*)())(&__start_boot))();
 }

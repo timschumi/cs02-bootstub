@@ -3,11 +3,15 @@ ENTRY(_start)
 SECTIONS
 {
     . = 0x81e08000;
+    __start_boot = .;
 
     .entry ALIGN(4K) : AT (ADDR(.entry))
     {
         *(.entry*)
     }
+
+    . = . + 2 * 1024 * 1024;
+    __end_boot = .;
 
     .text ALIGN(4K) : AT (ADDR(.text))
     {
