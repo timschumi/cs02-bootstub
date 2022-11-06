@@ -39,38 +39,15 @@ void main() {
 
             size_t remaining = end - start;
             uint8_t checksum = 0;
-            size_t bit_count = 0;
-            uint16_t sliding_window = 0;
 
-            while (remaining > 0 || checksum || bit_count > 0) {
-                while (bit_count < 7) {
-                    uint8_t value;
-                    size_t bits_in_value = 8;
-
-                    if (remaining > 0) {
-                        value = *start;
-                        remaining--;
-                        start++;
-                    } else if (checksum) {
-                        value = checksum;
-                    } else {
-                        value = 0;
-                        bits_in_value = 7 - bit_count;
-                    }
-
-                    checksum ^= value;
-
-                    sliding_window = (sliding_window << bits_in_value) | value;
-                    bit_count += bits_in_value;
-                }
-
-                // The most significant bit has to be set to not collide with the control characters
-                // in the lower half of ASCII.
-                uint8_t value = 0b10000000 | ((sliding_window >> (bit_count - 7)) & 0b1111111);
-                bit_count -= 7;
-
-                write(&value, 1);
+            while (remaining > 0) {
+                checksum ^= *start;
+                write(start, 1);
+                start++;
+                remaining--;
             }
+
+            write(&checksum, 1);
 
             write("ENDUPLD", 7);
 
