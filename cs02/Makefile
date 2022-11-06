@@ -22,7 +22,6 @@ out/bootstub.img: out/bootstub.bin out/ramdisk.bin
 		--os_patch_level 2021-06 \
 		--pagesize 4096 \
 		--header_version 0 \
-		--hashtype sha1 \
 		-o out/bootstub.img
 
 out/bootstub.bin: out/bootstub.elf
