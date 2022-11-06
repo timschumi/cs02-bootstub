@@ -26,10 +26,10 @@ out/bootstub.img: out/bootstub.bin out/ramdisk.bin
 
 out/bootstub.bin: out/bootstub.elf
 	$(CROSS_COMPILE)objcopy -O binary out/bootstub.elf out/bootstub.bin
-	truncate -s 3633224 out/bootstub.bin
+	truncate -s ">4096" out/bootstub.bin
 
 out/ramdisk.bin:
-	truncate -s 1359384 out/ramdisk.bin
+	truncate -s ">4096" out/ramdisk.bin
 
 out/bootstub.elf: $(COMMON_SOURCES:%.c=out/common/%.o) $(DEVICE_SOURCES:%.c=out/cs02/%.o)
 	@mkdir -p out
