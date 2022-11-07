@@ -1,5 +1,6 @@
 #include <stdint.h>
 
+#include "device.h"
 #include "stdlib.h"
 
 #define PKG_ID_LEN 8
@@ -50,6 +51,42 @@ void main() {
             write(&checksum, 1);
 
             write("ENDUPLD", 7);
+
+            continue;
+        }
+
+        if (strncmp("BOOTFILE", buffer, 8) == 0) {
+            uint8_t* buffer = NULL;
+            size_t buffer_size = 0;
+
+            boot_get_area(&buffer, &buffer_size);
+
+            uint8_t* buffer_writeptr = buffer;
+
+            size_t file_size = readul();
+            size_t remaining_size = file_size;
+
+            if (file_size > buffer_size) {
+                write("INVALID", 7);
+                continue;
+            }
+
+            write("STRTUPLD", 8);
+
+            while (remaining_size > 0) {
+                read(buffer_writeptr, 1);
+                if (remaining_size % 256 == 0) {
+                    write(buffer_writeptr, 1);
+                }
+                buffer_writeptr++;
+                remaining_size--;
+            }
+
+            write("ENDUPLD", 7);
+
+            printf("Booting the binary at 0x%x (sized 0x%x)...\n", buffer, file_size);
+
+            boot_jump();
 
             continue;
         }
