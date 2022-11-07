@@ -30,7 +30,7 @@ SECTIONS
     }
 
     __start_boot = .;
-    . = . + 2 * 1024 * 1024;
+    . = . + 4 * 1024 * 1024;
     __end_boot = .;
 
     /DISCARD/ : { *(*) }
